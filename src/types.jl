@@ -103,6 +103,44 @@ function SPIDEV(io, max_speed_hz, bits_per_word)
 end
 
 ################################################################################
+#                                    Serial
+################################################################################
+
+mutable struct TERMIOS
+  c_cflag::__u32
+  c_lflag::__u32
+  c_iflag::__u32
+  c_oflag::__u32
+  c_cc::Vector{Char}
+
+  res::Vector{__u32}
+
+  c_ispeed::__u32
+  c_ospeed::__u32
+end
+
+function TERMIOS(c_cflag, c_lflag, c_iflag, c_oflag, c_ispeed, c_ospeed)
+  return TERMIOS(
+    c_cflag,
+    c_lflag,
+    c_iflag,
+    c_oflag,
+    Vector{Char}(undef, 32),
+    Vector{__u32}(undef, 3),
+    c_ispeed,
+    c_ospeed)
+end
+
+mutable struct SERIALDEV
+  io::IOStream
+  termios::TERMIOS
+end
+
+function SERIALDEV(io, termios)
+  return SERIALDEV(io, termios)
+end
+
+################################################################################
 #                                    Global
 ################################################################################
 

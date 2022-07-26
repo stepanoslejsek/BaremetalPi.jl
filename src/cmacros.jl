@@ -318,4 +318,4 @@ const B3500000 = 10016
 const B4000000 = 10017
 
 const TERMIOS_IOC_MAGIC = UInt('T')
-#const TCSETS = _IOW(TERMIOS_IOC_MAGIC, 14, struct termios)
+const TCSETS = _IOW(TERMIOS_IOC_MAGIC, 14, 68) # 68 = sizeof(termios)
