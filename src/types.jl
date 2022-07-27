@@ -106,38 +106,36 @@ end
 #                                    Serial
 ################################################################################
 
-mutable struct TERMIOS
-  c_cflag::__u32
-  c_lflag::__u32
+mutable struct TERMIOS2
   c_iflag::__u32
   c_oflag::__u32
-  c_cc::Vector{Char}
-
-  res::Vector{__u32}
-
+  c_cflag::__u32
+  c_lflag::__u32
+  c_line::Char
+  c_cc::Vector{Char}(undef, 19)
   c_ispeed::__u32
   c_ospeed::__u32
 end
 
-function TERMIOS(c_cflag, c_lflag, c_iflag, c_oflag, c_ispeed, c_ospeed)
-  return TERMIOS(
-    c_cflag,
-    c_lflag,
+function TERMIOS2(c_iflag, c_oflag, c_cflag, c_lflag, c_line, c_cc, c_ispeed, c_ospeed)
+  return TERMIOS2(
     c_iflag,
     c_oflag,
-    Vector{Char}(undef, 32),
-    Vector{__u32}(undef, 3),
+    c_cflag,
+    c_lflag,
+    c_line,
+    c_cc,
     c_ispeed,
     c_ospeed)
 end
 
 mutable struct SERIALDEV
   io::IOStream
-  termios::TERMIOS
+  termios2::TERMIOS2
 end
 
-function SERIALDEV(io, termios)
-  return SERIALDEV(io, termios)
+function SERIALDEV(io, termios2)
+  return SERIALDEV(io, termios2)
 end
 
 ################################################################################

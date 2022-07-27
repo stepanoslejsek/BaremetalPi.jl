@@ -180,9 +180,11 @@ const SPI_IOC_WR_MAX_SPEED_HZ = _IOW(SPI_IOC_MAGIC, 4, sizeof(__u32))
 #                                     SERIAL
 ################################################################################
 
-const NCCS = 32
+# Macros defined in /usr/include/asm-generic/
+const NCCS = 19
+const _TERMIOS2_SIZE = 44
 
-# Macros for c_cc characters defined in /usr/include/bits/termios-c_cc.h
+# c_cc characters
 const VINTR = 0
 const VQUIT = 1
 const VERASE = 2
@@ -201,90 +203,57 @@ const VWERASE = 14
 const VLNEXT = 15
 const VEOL2 = 16
 
-# Macros for c_cflag bits defined in /usr/include/bits/termios-c_cflag.h
-const CSIZE = 60
-const CS5 = 0
-const CS6 = 20
-const CS7 = 40
-const CS8 = 60
-const CSTOPB = 100
-const CREAD = 200
-const PARENB = 400
-const PARODD = 1000
-const HUPCL = 2000
-const CLOCAL = 4000
+# c_iflag bits
+const IGNBRK = 1
+const BRKINT = 2
+const IGNPAR = 4
+const PARMRK = 10
+const INPCK = 20
+const ISTRIP = 40
+const INLCR = 100
+const IGNCR = 200
+const ICRNL = 400
+const IUCLC = 1000
+const IXON = 2000
+const IXANY = 4000
+const IXOFF = 10000
+const IMAXBEL = 20000
+const IUTF8 = 40000
 
-# Macros for c_iflag bits defined in /usr/include/bits/termios-c_iflag.h
-const IGNBRK = 1     # Ignore break condition
-const BRKINT = 2     # Signal interrupt on break
-const IGNPAR = 4     # Ignore characters with parity errors
-const PARMRK = 10    # Mark parity and framing errors
-const INPCK = 20    # Enable input parity check
-const ISTRIP = 40    # Strip 8th bit off characters
-const INLCR = 100   # Map NL to CR on input
-const IGNCR = 200   # Ignore CR
-const ICRNL = 400   # Map CR to NL on input
-const IUCLC = 1000  # Map uppercase characters to lowercase on input
-const IXON = 2000  # Enable start/stop output control
-const IXANY = 4000  # Enable any character to restart output
-const IXOFF = 10000 # Enable start/stop input control
-const IMAXBEL = 20000 # Ring bell when input queue is full
-const IUTF8 = 40000 # Input is UTF8
+# c_oflag bits
+const OPOST = 1
+const OLCUC = 2
+const ONLCR = 4
+const OCRNL = 10
+const ONOCR = 20
+const ONLRET = 40
+const OFILL = 100
+const OFDEL = 200
+const NLDLY = 400
+const NL0 = 0
+const NL1 = 400
+const CRDLY = 3000
+const CR0 = 0
+const CR1 = 1000
+const CR2 = 2000
+const CR3 = 3000
+const TABDLY = 14000
+const TAB0 = 0
+const TAB1 = 4000
+const TAB2 = 10000
+const TAB3 = 14000
+const XTABS = 14000
+const BSDLY = 20000
+const BS0 = 0
+const BS1 = 20000
+const VTDLY = 40000
+const VT0 = 0
+const VT1 = 40000
+const FFDLY = 100000
+const FF0 = 0
+const FF1 = 100000
 
-# Macros for c_lfrag bits defined in /usr/include/bits/termios-c_lflag.h
-const ISIG = 1      # Enable signals
-const ICANON = 2      # Canonical input (erase and kill processing)
-const ECHO = 10     # Enable echo
-const ECHOE = 20     # Echo erase character as error-correcting backspace
-const ECHOK = 40     # Echo KILL
-const ECHONL = 100    # Echo NL
-const NOFLSH = 200    # Disable flush after interrupt or quit
-const TOTOP = 400    # Send SIGTTOU for background output
-const ECHOCTL = 1000   # If ECHO is also set, terminal secial characters other than TAB, NL, START and STOP are echoed as ^X, where X is the character with ASCII code 0x40 greater than the special character
-const ECHOPORT = 2000   # If ICANON and ECHO are also set, characters are printed as they are being erased
-const ECHOKE = 4000   # If ICANON is also set, KILL is echoed by erasing each character on the line, as specified by ECHOE and ECHOPRT
-const FLUSHO = 10000  # Output is being flushed. This flag is toggled by typing the DISCARD character
-const PENDIN = 40000  # All characters in the input queue are reprinted when the next character is read
-const IEXTEN = 100000 # Enable implementation-defined input processing
-const EXTPROC = 200000
-
-# Macros for c_oflag bits defined in /usr/include/bits/termios-c_oflag.h
-const OPOST = 1      # Post-process output
-const OLCUC = 2      # Map lowercase charactersto uppercase on output
-const ONLCR = 4      # Map NL to CO-NL on output
-const OCRNL = 10     # Map CR to NL on output
-const ONOCR = 20     # No CR output at column 0
-const ONLRET = 40     # NL performs CR function
-const OFILL = 100    # Use fill characters for delay
-const OFDEL = 200    # Fill is DEL
-const NLDLY = 400    # Select newline delays
-const NL0 = 0      # Newline type 0
-const NL1 = 400    # Newline type 1
-const CRDLY = 3000   # Select carriage-return delays
-const CR0 = 0      # Carriage-return delay type 0
-const CR1 = 1000   # Carriage-return delay type 1
-const CR2 = 2000   # Carriage-return delay type 2
-const CR3 = 3000   # Carriage-return delay type 3
-const TABDLY = 14000  # Select horizontal-tab delays
-const TAB0 = 0      # Horizontal-tab delay type 0
-const TAB1 = 4000   # Horizontal-tab delay type 1
-const TAB2 = 10000  # Horizontal-tab delay type 2
-const TAB3 = 14000  # Expand tabs to spaces
-const BSDLY = 20000  # Select backspace delays
-const BS0 = 0      # Backspace-delay type 0
-const BS1 = 20000  # Backspace-delay type 1
-const FFDLY = 100000 # Select form-feed delays
-const FF0 = 0      # Form-feed delay type 0
-const FF1 = 100000 # Form-feed delay type 1
-const VTDLY = 40000  # Select vertical-tab delays
-const VT0 = 0      # Vertical-tab delay type 0
-const VT1 = 40000  # Vertiacal-tab delay type 1
-
-const TCSANOW = 0
-const TCSADRAIN = 1
-const TCSAFLUSH = 2
-
-# Macros for baud rate defined in /usr/include/bits/termios-baud.h and termios.h
+const CBAUD = 10017
 const B0 = 0
 const B50 = 1
 const B75 = 2
@@ -301,6 +270,21 @@ const B4800 = 14
 const B9600 = 15
 const B19200 = 16
 const B38400 = 17
+const EXTA = B19200
+const EXTB = B38400
+const CSIZE = 60
+const CS5 = 0
+const CS6 = 20
+const CS7 = 40
+const CS8 = 60
+const CSTOPB = 100
+const CREAD = 200
+const PARENB = 400
+const PARODD = 1000
+const HUPCL = 2000
+const CLOCAL = 4000
+const CBAUDEX = 10000
+const BOTHER = 10000
 const B57600 = 10001
 const B115200 = 10002
 const B230400 = 10003
@@ -316,6 +300,48 @@ const B2500000 = 10014
 const B3000000 = 10015
 const B3500000 = 10016
 const B4000000 = 10017
+const CIBAUD = 2003600000   # input baud rate 
+const CMSPAR = 10000000000  # mark or space (stick) parity 
+const CRTSCTS = 20000000000 # flow control 
 
-const TERMIOS_IOC_MAGIC = UInt('T')
-const TCSETS = _IOW(TERMIOS_IOC_MAGIC, 14, 68) # 68 = sizeof(termios)
+const IBSHIFT = 16  # Shift from CBAUD to CIBAUD
+
+# c_lflag bits 
+const ISIG = 1
+const ICANON = 2
+const XCASE = 4
+const ECHO = 10
+const ECHOE = 20
+const ECHOK = 40
+const ECHONL = 100
+const NOFLSH = 200
+const TOSTOP = 400
+const ECHOCTL = 1000
+const ECHOPRT = 2000
+const ECHOKE = 4000
+const FLUSHO = 10000
+const PENDIN = 40000
+const IEXTEN = 100000
+const EXTPROC = 200000
+
+# tcflow() and TCXONC use these 
+const TCOOFF = 0
+const TCOON = 1
+const TCIOFF = 2
+const TCION = 3
+
+# tcflush() and TCFLSH use these 
+const TCIFLUSH = 0
+const TCOFLUSH = 1
+const TCIOFLUSH = 2
+
+# tcsetattr uses these 
+const TCSANOW = 0
+const TCSADRAIN = 1
+const TCSAFLUSH = 2
+
+const TERMIOS2_IOC_MAGIC = UInt('T')
+const TCGETS2 = _IOR(TERMIOS2_IOC_MAGIC, 0x2A, _TERMIOS2_SIZE)
+const TCSETS2 = _IOW(TERMIOS2_IOC_MAGIC, 0x2B, _TERMIOS2_SIZE)
+const TCSETSW2 = _IOW(TERMIOS2_IOC_MAGIC, 0x2C, _TERMIOS2_SIZE)
+const TCSETSF2 = _IOW(TERMIOS2_IOC_MAGIC, 0x2D, _TERMIOS2_SIZE)
