@@ -23,6 +23,7 @@ include("./ioctl.jl")
 include("./gpio.jl")
 include("./i2c.jl")
 include("./spi.jl")
+include("./serial.jl")
 
 ################################################################################
 #                                Initialization

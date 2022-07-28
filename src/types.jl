@@ -111,20 +111,20 @@ mutable struct TERMIOS2
   c_oflag::__u32
   c_cflag::__u32
   c_lflag::__u32
-  c_line::Char
-  c_cc::Vector{Char}(undef, 19)
+  c_line::__u8
+  c_cc::Vector{__u8}
   c_ispeed::__u32
   c_ospeed::__u32
 end
 
-function TERMIOS2(c_iflag, c_oflag, c_cflag, c_lflag, c_line, c_cc, c_ispeed, c_ospeed)
+function TERMIOS2(c_iflag, c_oflag, c_cflag, c_lflag, c_line, c_ispeed, c_ospeed)
   return TERMIOS2(
     c_iflag,
     c_oflag,
     c_cflag,
     c_lflag,
     c_line,
-    c_cc,
+    Vector{__u8}(undef, NCCS),
     c_ispeed,
     c_ospeed)
 end
@@ -165,6 +165,10 @@ mutable struct Objects
   spi_init::Bool
   spidev::Vector{SPIDEV}
   spi_buffer_size::Int
+  # Serial
+  # ==========================================================================
+  serial_init::Bool
+  serialdev::Vector{SERIALDEV}
 end
 
 const objects = Objects(
@@ -176,4 +180,6 @@ const objects = Objects(
   false,
   Vector{SPIDEV}(undef, 0),
   4096,
+  false,
+  Vector{SERIALDEV}(undef, 0),
 )
